@@ -1,4 +1,6 @@
 <?php
+require_register_users_permission();
+
 $roles = ['admin', 'warehouse', 'requester'];
 $departments = available_departments();
 

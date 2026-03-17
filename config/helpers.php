@@ -128,6 +128,26 @@ function default_department_for_role(string $role): string
     return '';
 }
 
+function can_register_users(): bool
+{
+    $user = current_user();
+
+    if ($user === null) {
+        return false;
+    }
+
+    $email = strtolower(trim((string) ($user['email'] ?? '')));
+    return $user['role'] === 'admin' && $email === 'drsergiolobo@gmail.com';
+}
+
+function require_register_users_permission(): void
+{
+    if (!can_register_users()) {
+        set_flash('danger', 'Only the authorized administrator can register new users.');
+        redirect('index.php?page=dashboard');
+    }
+}
+
 function require_login(): void
 {
     if (!is_logged_in()) {

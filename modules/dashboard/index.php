@@ -27,6 +27,12 @@ $recentMovements = db()->query($recentMovementsSql);
 ?>
 
 <div class="container-fluid">
+    <?php if (can_register_users()): ?>
+        <div class="d-flex justify-content-end mb-3">
+            <a href="index.php?page=register" class="btn btn-primary btn-sm">Create New User</a>
+        </div>
+    <?php endif; ?>
+
     <div class="row g-3 mb-3">
         <div class="col-md-4">
             <div class="card stat-card">
