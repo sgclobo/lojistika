@@ -46,6 +46,10 @@ switch ($page) {
         $pageTitle = 'Register User';
         $target = __DIR__ . '/modules/auth/register.php';
         break;
+    case 'change_password':
+        $pageTitle = 'Change Password';
+        $target = __DIR__ . '/modules/auth/change_password.php';
+        break;
     case 'dashboard':
         $pageTitle = 'Dashboard';
         $target = __DIR__ . '/modules/dashboard/index.php';

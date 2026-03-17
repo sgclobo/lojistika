@@ -26,6 +26,16 @@ body {
   letter-spacing: 0.6px;
 }
 
+.user-name-link {
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.65);
+}
+
+.user-name-link:hover {
+  color: #dbeeff;
+  border-bottom-color: #dbeeff;
+}
+
 .brand-logo {
   width: 28px;
   height: 28px;
@@ -122,15 +132,58 @@ body {
   font-weight: 700;
 }
 
-.login-creds-list .list-group-item {
-  border-color: rgba(255, 255, 255, 0.25);
+.login-aside-subtitle {
+  color: rgba(255, 255, 255, 0.9);
 }
 
-.login-aside code {
-  color: #fef3c7;
-  background: rgba(0, 0, 0, 0.2);
-  padding: 1px 6px;
-  border-radius: 4px;
+.login-intro {
+  color: rgba(255, 255, 255, 0.92);
+  line-height: 1.5;
+}
+
+.quote-list {
+  display: grid;
+  gap: 10px;
+  max-height: 320px;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
+.quote-item {
+  border-left: 3px solid rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+.quote-text {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: #ffffff;
+}
+
+.sources {
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 10px;
+  padding: 12px;
+  font-size: 0.82rem;
+}
+
+.sources h2 {
+  font-size: 0.95rem;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.sources ul {
+  margin-bottom: 0;
+  padding-left: 18px;
+}
+
+.sources li {
+  margin-bottom: 4px;
 }
 
 @media (max-width: 991px) {

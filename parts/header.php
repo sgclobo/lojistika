@@ -26,7 +26,7 @@ $user = current_user();
         <div class="d-flex align-items-center gap-2">
             <?php if ($user): ?>
             <span class="badge text-bg-light text-uppercase"><?= h($user['role']) ?></span>
-            <span class="small text-light"><?= h($user['full_name']) ?></span>
+            <a class="small text-light user-name-link" href="index.php?page=change_password" title="Change password"><?= h($user['full_name']) ?></a>
             <a class="btn btn-sm btn-outline-light" href="index.php?action=logout">Sign out</a>
             <?php else: ?>
             <span class="small text-light">Please sign in</span>
