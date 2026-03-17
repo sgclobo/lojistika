@@ -244,3 +244,23 @@ function paginate(int $defaultPerPage = 10): array
 
     return [$page, $perPage, $offset];
 }
+
+function app_base_path(): string
+{
+    $scriptName = str_replace('\\', '/', (string) ($_SERVER['SCRIPT_NAME'] ?? '/index.php'));
+    $basePath = rtrim(str_replace('\\', '/', dirname($scriptName)), '/');
+
+    return $basePath === '' ? '' : $basePath;
+}
+
+function asset_url(string $relativePath): string
+{
+    $cleanPath = ltrim(str_replace('\\', '/', $relativePath), '/');
+    $basePath = app_base_path();
+    $assetPath = $basePath . '/' . $cleanPath;
+
+    $fullPath = dirname(__DIR__) . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $cleanPath);
+    $version = is_file($fullPath) ? (string) filemtime($fullPath) : null;
+
+    return $version ? $assetPath . '?v=' . rawurlencode($version) : $assetPath;
+}

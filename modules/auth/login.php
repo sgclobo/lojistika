@@ -7,7 +7,7 @@
                         <div class="col-lg-6 login-panel">
                             <div class="p-4 p-lg-5">
                                 <div class="d-flex align-items-center mb-3">
-                                    <img src="assets/img/aifaesa.png" alt="AIFAESA Logo" class="login-logo me-2">
+                                    <img src="<?= h(asset_url('assets/img/aifaesa.png')) ?>" alt="AIFAESA Logo" class="login-logo me-2">
                                     <div>
                                         <div class="login-eyebrow">Lojistika AIFAESA, IP</div>
                                         <h2 class="h4 mb-0">P&aacute;jina Login</h2>
