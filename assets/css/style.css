@@ -1,0 +1,88 @@
+:root {
+  --lms-header: #0f4c81;
+  --lms-sidebar: #f5f8fc;
+  --lms-accent: #1f6fb2;
+  --lms-text: #1c2733;
+  --lms-border: #d7e2ef;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(145deg, #eef4fb 0%, #f8fbff 60%, #edf3fa 100%);
+  color: var(--lms-text);
+}
+
+.header {
+  height: 60px;
+  background: var(--lms-header);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 1030;
+}
+
+.brand {
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+}
+
+.mt-header {
+  margin-top: 76px;
+}
+
+.sidebar {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  bottom: 0;
+  width: 250px;
+  overflow-y: auto;
+  background: var(--lms-sidebar);
+  border-right: 1px solid var(--lms-border);
+  padding: 16px 10px;
+}
+
+.sidebar .nav-link {
+  color: #31465c;
+  border-radius: 8px;
+  margin-bottom: 6px;
+  padding: 10px;
+}
+
+.sidebar .nav-link:hover {
+  background: #e8f0fa;
+  color: var(--lms-accent);
+}
+
+.main {
+  margin-top: 60px;
+  margin-left: 250px;
+  padding: 20px;
+}
+
+.card.stat-card {
+  border: 1px solid var(--lms-border);
+  box-shadow: 0 6px 20px rgba(31, 111, 178, 0.08);
+}
+
+.table thead {
+  background: #edf4fb;
+}
+
+.badge-status {
+  font-size: 0.78rem;
+}
+
+@media (max-width: 991px) {
+  .sidebar {
+    position: static;
+    width: 100%;
+    top: 0;
+    border-right: 0;
+  }
+
+  .main {
+    margin-left: 0;
+    margin-top: 10px;
+  }
+}
