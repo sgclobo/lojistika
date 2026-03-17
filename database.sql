@@ -1,5 +1,6 @@
-CREATE DATABASE IF NOT EXISTS logistics_lms CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE logistics_lms;
+-- Shared hosting note:
+-- Database creation is often restricted, so import this file into an existing
+-- selected database (e.g. u781534777_lojistika) via phpMyAdmin.
 
 SET FOREIGN_KEY_CHECKS = 0;
 

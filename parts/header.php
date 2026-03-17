@@ -20,8 +20,8 @@ $user = current_user();
     <header class="header fixed-top d-flex align-items-center justify-content-between px-3">
         <a href="index.php?page=<?= $user ? 'dashboard' : 'login' ?>"
             class="brand d-flex align-items-center text-decoration-none">
-            <i class="bi bi-box-seam me-2"></i>
-            <span>Lojistika AFS</span>
+            <img src="assets/img/aifaesa.png" alt="AIFAESA Logo" class="brand-logo me-2">
+            <span>Lojistika</span>
         </a>
         <div class="d-flex align-items-center gap-2">
             <?php if ($user): ?>
