@@ -123,9 +123,9 @@ CREATE TABLE stock_movements (
 ) ENGINE=InnoDB;
 
 INSERT INTO users (full_name, email, password_hash, role) VALUES
-('System Admin', 'admin@lms.local', '$2y$10$R7x4kS9qMpJ9T9M5oHZQrepp2QwXQ1oQ5dQb0KeTNOh2T4M84fF6q', 'admin'),
-('Warehouse Officer', 'warehouse@lms.local', '$2y$10$R7x4kS9qMpJ9T9M5oHZQrepp2QwXQ1oQ5dQb0KeTNOh2T4M84fF6q', 'warehouse'),
-('Department Requester', 'requester@lms.local', '$2y$10$R7x4kS9qMpJ9T9M5oHZQrepp2QwXQ1oQ5dQb0KeTNOh2T4M84fF6q', 'requester');
+('System Admin', 'admin@lms.local', '$2y$10$CRmXDEAJM/yn7o31.Ed5Xen3ZiqTn9uyGhtpEQHmZIag0Kyp8X84y', 'admin'),
+('Warehouse Officer', 'warehouse@lms.local', '$2y$10$CRmXDEAJM/yn7o31.Ed5Xen3ZiqTn9uyGhtpEQHmZIag0Kyp8X84y', 'warehouse'),
+('Department Requester', 'requester@lms.local', '$2y$10$CRmXDEAJM/yn7o31.Ed5Xen3ZiqTn9uyGhtpEQHmZIag0Kyp8X84y', 'requester');
 
 INSERT INTO categories (name, description, created_by) VALUES
 ('Office Supplies', 'Paper, toner, pens and related items', 1),

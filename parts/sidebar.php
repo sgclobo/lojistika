@@ -1,3 +1,5 @@
+<?php $user = current_user(); ?>
+
 <aside id="sidebar" class="sidebar">
     <ul class="nav flex-column">
         <li class="nav-item"><a class="nav-link" href="index.php?page=dashboard"><i class="bi bi-speedometer2 me-2"></i>Dashboard</a></li>
@@ -11,10 +13,9 @@
     </ul>
 
     <hr>
-    <div class="small text-muted px-2 mb-2">Demo Role Switcher</div>
-    <div class="d-grid gap-2 px-2">
-        <a class="btn btn-sm btn-outline-primary" href="index.php?switch_role=admin">Admin</a>
-        <a class="btn btn-sm btn-outline-primary" href="index.php?switch_role=warehouse">Warehouse</a>
-        <a class="btn btn-sm btn-outline-primary" href="index.php?switch_role=requester">Requester</a>
+    <div class="px-2 small text-muted">
+        Signed in as
+        <div class="fw-semibold text-dark"><?= h($user['full_name'] ?? 'Unknown User') ?></div>
+        <div class="text-uppercase"><?= h($user['role'] ?? 'unknown') ?></div>
     </div>
 </aside>

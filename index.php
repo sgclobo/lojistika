@@ -4,27 +4,42 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/config/helpers.php';
 
-if (isset($_GET['switch_role'])) {
-    $role = $_GET['switch_role'];
-    $map = [
-        'admin' => ['id' => 1, 'full_name' => 'System Admin', 'role' => 'admin'],
-        'warehouse' => ['id' => 2, 'full_name' => 'Warehouse Officer', 'role' => 'warehouse'],
-        'requester' => ['id' => 3, 'full_name' => 'Department Requester', 'role' => 'requester'],
-    ];
+if (isset($_GET['action']) && $_GET['action'] === 'logout') {
+    logout_user();
+    set_flash('success', 'You have been signed out.');
+    redirect('index.php?page=login');
+}
 
-    if (isset($map[$role])) {
-        $_SESSION['user'] = $map[$role];
-        set_flash('success', 'Switched role to ' . $role . ' (demo mode).');
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'login') {
+    $email = trim((string) ($_POST['email'] ?? ''));
+    $password = (string) ($_POST['password'] ?? '');
+    $user = authenticate_user($email, $password);
+
+    if ($user) {
+        login_user($user);
+        set_flash('success', 'Welcome back, ' . $user['full_name'] . '.');
+        redirect('index.php?page=dashboard');
     }
 
-    redirect('index.php?page=dashboard');
+    set_flash('danger', 'Invalid email or password.');
+    redirect('index.php?page=login');
 }
 
 $page = $_GET['page'] ?? 'dashboard';
 $pageTitle = 'Logistics Management System';
 $target = null;
 
+if ($page !== 'login') {
+    require_login();
+} elseif (is_logged_in()) {
+    redirect('index.php?page=dashboard');
+}
+
 switch ($page) {
+    case 'login':
+        $pageTitle = 'Sign In';
+        $target = __DIR__ . '/modules/auth/login.php';
+        break;
     case 'dashboard':
         $pageTitle = 'Dashboard';
         $target = __DIR__ . '/modules/dashboard/index.php';
@@ -68,14 +83,24 @@ switch ($page) {
 }
 
 require __DIR__ . '/parts/header.php';
-require __DIR__ . '/parts/sidebar.php';
 
-echo '<main id="main" class="main">';
-if ($target && file_exists($target)) {
-    require $target;
+if ($page !== 'login') {
+    require __DIR__ . '/parts/sidebar.php';
+    echo '<main id="main" class="main">';
+    if ($target && file_exists($target)) {
+        require $target;
+    } else {
+        echo '<div class="alert alert-danger">Page not found.</div>';
+    }
+    echo '</main>';
 } else {
-    echo '<div class="alert alert-danger">Page not found.</div>';
+    echo '<main class="container mt-header py-4">';
+    if ($target && file_exists($target)) {
+        require $target;
+    } else {
+        echo '<div class="alert alert-danger">Page not found.</div>';
+    }
+    echo '</main>';
 }
-echo '</main>';
 
 require __DIR__ . '/parts/footer.php';
