@@ -10,7 +10,9 @@
 
 1. Create database and tables:
    - Import `database.sql` into MySQL/MariaDB.
-2. Update DB credentials in `config/db_connect.php` if needed.
+2. Configure database credentials:
+   - Preferred: environment variables `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASS`, `DB_NAME`
+   - Alternative (shared hosting): copy `config/db_credentials.example.php` to `config/db_credentials.php` and set real values.
 3. Serve the `logistics` folder from Apache/Nginx.
 4. Open:
    - `http://localhost/logistics/index.php`
@@ -69,3 +71,4 @@ Use the sidebar role switcher:
 - Replace demo role switcher with login/auth.
 - Store real password hashes and enforce password policy.
 - Enable HTTPS and secure session settings.
+- Do not use `root` as production DB user. Use your hosting database user/password.

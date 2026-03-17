@@ -14,19 +14,41 @@ function env_value(array $keys, string $default = ''): string
         if ($value !== false && trim((string) $value) !== '') {
             return trim((string) $value);
         }
+
+        if (isset($_ENV[$key]) && trim((string) $_ENV[$key]) !== '') {
+            return trim((string) $_ENV[$key]);
+        }
+
+        if (isset($_SERVER[$key]) && trim((string) $_SERVER[$key]) !== '') {
+            return trim((string) $_SERVER[$key]);
+        }
     }
 
     return $default;
 }
 
+function file_db_config(): array
+{
+    $filePath = __DIR__ . DIRECTORY_SEPARATOR . 'db_credentials.php';
+
+    if (!is_file($filePath)) {
+        return [];
+    }
+
+    $config = require $filePath;
+    return is_array($config) ? $config : [];
+}
+
 function db_config(): array
 {
+    $fileConfig = file_db_config();
+
     return [
-        'host' => env_value(['DB_HOST', 'MYSQL_HOST', 'DATABASE_HOST'], '127.0.0.1'),
-        'port' => (int) env_value(['DB_PORT', 'MYSQL_PORT', 'DATABASE_PORT'], '3306'),
-        'user' => env_value(['DB_USER', 'MYSQL_USER', 'DATABASE_USER'], 'root'),
-        'pass' => env_value(['DB_PASS', 'MYSQL_PASSWORD', 'DATABASE_PASSWORD'], ''),
-        'name' => env_value(['DB_NAME', 'MYSQL_DATABASE', 'DATABASE_NAME'], 'logistics_lms'),
+        'host' => env_value(['DB_HOST', 'MYSQL_HOST', 'DATABASE_HOST'], (string) ($fileConfig['host'] ?? '127.0.0.1')),
+        'port' => (int) env_value(['DB_PORT', 'MYSQL_PORT', 'DATABASE_PORT'], (string) ($fileConfig['port'] ?? '3306')),
+        'user' => env_value(['DB_USER', 'MYSQL_USER', 'DATABASE_USER'], (string) ($fileConfig['user'] ?? 'root')),
+        'pass' => env_value(['DB_PASS', 'MYSQL_PASSWORD', 'DATABASE_PASSWORD'], (string) ($fileConfig['pass'] ?? '')),
+        'name' => env_value(['DB_NAME', 'MYSQL_DATABASE', 'DATABASE_NAME'], (string) ($fileConfig['name'] ?? 'logistics_lms')),
     ];
 }
 
@@ -53,6 +75,13 @@ function db_connect(): mysqli
                 $message .= ' Expected file: ' . $sqlFile;
             }
 
+            exit($message);
+        }
+
+        if (stripos($e->getMessage(), 'Access denied for user') !== false) {
+            $configFile = __DIR__ . DIRECTORY_SEPARATOR . 'db_credentials.php';
+            $message = 'Database login failed for user "' . $cfg['user'] . '" at host "' . $cfg['host'] . '".';
+            $message .= ' Set hosting credentials via environment variables or create: ' . $configFile;
             exit($message);
         }
 
