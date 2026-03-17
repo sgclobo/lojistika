@@ -10,6 +10,10 @@
 
 1. Create database and tables:
    - Import `database.sql` into MySQL/MariaDB.
+   - If your database already exists, run this migration once:
+     - `ALTER TABLE users ADD COLUMN departments VARCHAR(180) NOT NULL DEFAULT 'Departamento de Administracao e Financas' AFTER role;`
+     - `UPDATE users SET departments = 'Departamento de Administracao e Financas' WHERE role IN ('admin', 'warehouse');`
+     - `UPDATE users SET departments = 'Departamento de Operacoes' WHERE role = 'requester' AND (departments IS NULL OR departments = '');`
 2. Configure database credentials:
    - Preferred: environment variables `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASS`, `DB_NAME`
    - Alternative (shared hosting): copy `config/db_credentials.example.php` to `config/db_credentials.php` and set real values.

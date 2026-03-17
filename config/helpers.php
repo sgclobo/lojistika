@@ -57,6 +57,7 @@ function login_user(array $user): void
         'full_name' => (string) $user['full_name'],
         'role' => (string) $user['role'],
         'email' => (string) $user['email'],
+        'departments' => (string) ($user['departments'] ?? ''),
     ];
 }
 
@@ -73,7 +74,7 @@ function authenticate_user(string $email, string $password): ?array
         return null;
     }
 
-    $sql = 'SELECT id, full_name, email, password_hash, role, is_active FROM users WHERE email = ? LIMIT 1';
+    $sql = 'SELECT id, full_name, email, password_hash, role, departments, is_active FROM users WHERE email = ? LIMIT 1';
     $stmt = db()->prepare($sql);
     $stmt->bind_param('s', $email);
     $stmt->execute();
@@ -103,6 +104,28 @@ function authenticate_user(string $email, string $password): ?array
     }
 
     return $user;
+}
+
+function available_departments(): array
+{
+    return [
+        'Gabinete da Inspetora-Geral',
+        'Gabinete da Subinspetora-Geral',
+        'Gabinete do Fiscal Unico',
+        'Departamento de Administracao e Financas',
+        'Departamento de Operacoes',
+        'Departamento de Plano Operacional, Risco Alimentar e Laboratorio',
+        'Departamento de Metrologia e Padronizacao',
+    ];
+}
+
+function default_department_for_role(string $role): string
+{
+    if (in_array($role, ['admin', 'warehouse'], true)) {
+        return 'Departamento de Administracao e Financas';
+    }
+
+    return '';
 }
 
 function require_login(): void

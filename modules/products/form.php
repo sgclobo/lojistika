@@ -72,6 +72,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $categories = db()->query('SELECT id, name FROM categories ORDER BY name ASC');
 $suppliers = db()->query('SELECT id, name FROM suppliers ORDER BY name ASC');
+$productNamesQuery = db()->query('SELECT DISTINCT category_id, name FROM products WHERE is_active = 1 ORDER BY name ASC');
+$productNamesByCategory = [];
+while ($nameRow = $productNamesQuery->fetch_assoc()) {
+    $categoryId = (int) $nameRow['category_id'];
+    if (!isset($productNamesByCategory[$categoryId])) {
+        $productNamesByCategory[$categoryId] = [];
+    }
+
+    $productNamesByCategory[$categoryId][] = $nameRow['name'];
+}
 ?>
 
 <div class="container-fluid">
@@ -110,7 +120,9 @@ $suppliers = db()->query('SELECT id, name FROM suppliers ORDER BY name ASC');
 
                 <div class="col-md-6">
                     <label class="form-label">Product Name</label>
-                    <input type="text" class="form-control" name="name" required value="<?= h($product['name']) ?>">
+                    <select class="form-select" name="name" data-product-name required>
+                        <option value="">Select category first</option>
+                    </select>
                 </div>
 
                 <div class="col-md-2">
@@ -142,3 +154,9 @@ $suppliers = db()->query('SELECT id, name FROM suppliers ORDER BY name ASC');
         </div>
     </div>
 </div>
+
+<script>
+window.productNamesByCategory = <?= json_encode($productNamesByCategory, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>;
+window.productFormCurrentCategory = <?= json_encode((int) $product['category_id']) ?>;
+window.productFormCurrentName = <?= json_encode((string) $product['name'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>;
+</script>

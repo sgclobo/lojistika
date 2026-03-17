@@ -29,6 +29,7 @@
                                     </div>
 
                                     <button type="submit" class="btn btn-primary btn-lg w-100">Sign In</button>
+                                    <a href="index.php?page=register" class="btn btn-outline-secondary btn-lg w-100 mt-2">Create New User</a>
                                 </form>
                             </div>
                         </div>

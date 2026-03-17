@@ -12,6 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $department = trim($_POST['department'] ?? '');
         $purpose = trim($_POST['purpose'] ?? '');
+        $categoryIds = $_POST['category_id'] ?? [];
         $productIds = $_POST['product_id'] ?? [];
         $quantities = $_POST['quantity_requested'] ?? [];
 
@@ -31,16 +32,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->close();
 
             $itemStmt = db()->prepare('INSERT INTO requisition_items (requisition_id, product_id, quantity_requested) VALUES (?, ?, ?)');
+            $productByCategoryStmt = db()->prepare('SELECT id FROM products WHERE id = ? AND category_id = ? AND is_active = 1 LIMIT 1');
             $validItems = 0;
             foreach ($productIds as $idx => $pidRaw) {
                 $pid = (int) $pidRaw;
+                $categoryId = (int) ($categoryIds[$idx] ?? 0);
                 $qty = (float) ($quantities[$idx] ?? 0);
-                if ($pid > 0 && $qty > 0) {
+                if ($pid > 0 && $categoryId > 0 && $qty > 0) {
+                    $productByCategoryStmt->bind_param('ii', $pid, $categoryId);
+                    $productByCategoryStmt->execute();
+                    $matched = $productByCategoryStmt->get_result()->fetch_assoc();
+
+                    if (!$matched) {
+                        continue;
+                    }
+
                     $itemStmt->bind_param('iid', $requisitionId, $pid, $qty);
                     $itemStmt->execute();
                     $validItems++;
                 }
             }
+            $productByCategoryStmt->close();
             $itemStmt->close();
 
             if ($validItems === 0) {
@@ -170,7 +182,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$products = db()->query('SELECT id, code, name FROM products WHERE is_active = 1 ORDER BY name ASC');
+$categories = db()->query('SELECT id, name FROM categories ORDER BY name ASC');
+$productsQuery = db()->query('SELECT id, category_id, code, name FROM products WHERE is_active = 1 ORDER BY name ASC');
+$productsByCategory = [];
+while ($productRow = $productsQuery->fetch_assoc()) {
+    $categoryId = (int) $productRow['category_id'];
+    if (!isset($productsByCategory[$categoryId])) {
+        $productsByCategory[$categoryId] = [];
+    }
+
+    $productsByCategory[$categoryId][] = [
+        'id' => (int) $productRow['id'],
+        'label' => $productRow['code'] . ' - ' . $productRow['name'],
+    ];
+}
 
 $where = '';
 if ($role === 'requester') {
@@ -218,15 +243,20 @@ function status_badge(string $status): string
 
                         <div id="requisition-items">
                             <div class="row g-2 req-item-row mb-2">
-                                <div class="col-7">
-                                    <select class="form-select" name="product_id[]" required>
-                                        <option value="">Select product</option>
-                                        <?php mysqli_data_seek($products, 0); while ($p = $products->fetch_assoc()): ?>
-                                            <option value="<?= (int) $p['id'] ?>"><?= h($p['code']) ?> - <?= h($p['name']) ?></option>
+                                <div class="col-4">
+                                    <select class="form-select req-category-select" name="category_id[]" required>
+                                        <option value="">Select category</option>
+                                        <?php mysqli_data_seek($categories, 0); while ($category = $categories->fetch_assoc()): ?>
+                                            <option value="<?= (int) $category['id'] ?>"><?= h($category['name']) ?></option>
                                         <?php endwhile; ?>
                                     </select>
                                 </div>
-                                <div class="col-3">
+                                <div class="col-4">
+                                    <select class="form-select req-product-select" name="product_id[]" required>
+                                        <option value="">Select category first</option>
+                                    </select>
+                                </div>
+                                <div class="col-2">
                                     <input type="number" step="0.01" min="0.01" class="form-control" name="quantity_requested[]" placeholder="Qty" required>
                                 </div>
                                 <div class="col-2 d-flex">
@@ -298,3 +328,7 @@ function status_badge(string $status): string
         </div>
     </div>
 </div>
+
+<script>
+window.productsByCategory = <?= json_encode($productsByCategory, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>;
+</script>

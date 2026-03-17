@@ -29,16 +29,22 @@ $page = $_GET['page'] ?? 'dashboard';
 $pageTitle = 'Logistics Management System';
 $target = null;
 
-if ($page !== 'login') {
+if (!in_array($page, ['login', 'register'], true)) {
     require_login();
 } elseif (is_logged_in()) {
-    redirect('index.php?page=dashboard');
+    if ($page === 'login') {
+        redirect('index.php?page=dashboard');
+    }
 }
 
 switch ($page) {
     case 'login':
         $pageTitle = 'Sign In';
         $target = __DIR__ . '/modules/auth/login.php';
+        break;
+    case 'register':
+        $pageTitle = 'Register User';
+        $target = __DIR__ . '/modules/auth/register.php';
         break;
     case 'dashboard':
         $pageTitle = 'Dashboard';
@@ -91,7 +97,7 @@ switch ($page) {
 
 require __DIR__ . '/parts/header.php';
 
-if ($page !== 'login') {
+if (!in_array($page, ['login', 'register'], true)) {
     require __DIR__ . '/parts/sidebar.php';
     echo '<main id="main" class="main">';
     if ($target && file_exists($target)) {

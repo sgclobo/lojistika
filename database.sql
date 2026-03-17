@@ -20,6 +20,7 @@ CREATE TABLE users (
     email VARCHAR(120) NOT NULL UNIQUE,
     password_hash VARCHAR(255) NOT NULL,
     role ENUM('admin', 'warehouse', 'requester') NOT NULL,
+    departments VARCHAR(180) NOT NULL DEFAULT 'Departamento de Administracao e Financas',
     is_active TINYINT(1) NOT NULL DEFAULT 1,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -123,10 +124,10 @@ CREATE TABLE stock_movements (
     INDEX idx_stock_movements_reference (reference_type, reference_id)
 ) ENGINE=InnoDB;
 
-INSERT INTO users (full_name, email, password_hash, role) VALUES
-('System Admin', 'admin@lms.local', '$2y$10$CRmXDEAJM/yn7o31.Ed5Xen3ZiqTn9uyGhtpEQHmZIag0Kyp8X84y', 'admin'),
-('Warehouse Officer', 'warehouse@lms.local', '$2y$10$CRmXDEAJM/yn7o31.Ed5Xen3ZiqTn9uyGhtpEQHmZIag0Kyp8X84y', 'warehouse'),
-('Department Requester', 'requester@lms.local', '$2y$10$CRmXDEAJM/yn7o31.Ed5Xen3ZiqTn9uyGhtpEQHmZIag0Kyp8X84y', 'requester');
+INSERT INTO users (full_name, email, password_hash, role, departments) VALUES
+('System Admin', 'admin@lms.local', '$2y$10$CRmXDEAJM/yn7o31.Ed5Xen3ZiqTn9uyGhtpEQHmZIag0Kyp8X84y', 'admin', 'Departamento de Administracao e Financas'),
+('Warehouse Officer', 'warehouse@lms.local', '$2y$10$CRmXDEAJM/yn7o31.Ed5Xen3ZiqTn9uyGhtpEQHmZIag0Kyp8X84y', 'warehouse', 'Departamento de Administracao e Financas'),
+('Department Requester', 'requester@lms.local', '$2y$10$CRmXDEAJM/yn7o31.Ed5Xen3ZiqTn9uyGhtpEQHmZIag0Kyp8X84y', 'requester', 'Departamento de Operacoes');
 
 INSERT INTO categories (name, description, created_by) VALUES
 ('Office Supplies', 'Paper, toner, pens and related items', 1),
