@@ -20,16 +20,20 @@
 
                                     <div class="mb-3">
                                         <label for="email" class="form-label">Email</label>
-                                        <input type="email" class="form-control form-control-lg" id="email" name="email" required autocomplete="username" placeholder="admin@lms.local">
+                                        <input type="email" class="form-control form-control-lg" id="email" name="email"
+                                            required autocomplete="username" placeholder="admin@lms.local">
                                     </div>
 
                                     <div class="mb-4">
                                         <label for="password" class="form-label">Password</label>
-                                        <input type="password" class="form-control form-control-lg" id="password" name="password" required autocomplete="current-password" placeholder="Enter password">
+                                        <input type="password" class="form-control form-control-lg" id="password"
+                                            name="password" required autocomplete="current-password"
+                                            placeholder="Enter password">
                                     </div>
 
                                     <button type="submit" class="btn btn-primary btn-lg w-100">Sign In</button>
-                                    <a href="index.php?page=register" class="btn btn-outline-secondary btn-lg w-100 mt-2">Create New User</a>
+                                    <a href="index.php?page=register"
+                                        class="btn btn-outline-secondary btn-lg w-100 mt-2">Create New User</a>
                                 </form>
                             </div>
                         </div>
@@ -39,7 +43,7 @@
                                 <h6 class="text-uppercase mb-3">Demo Credentials</h6>
                                 <div class="small mb-3">Use these users to test each role in demo mode.</div>
 
-                                <ul class="list-group list-group-flush login-creds-list">
+                                <!-- <ul class="list-group list-group-flush login-creds-list">
                                     <li class="list-group-item bg-transparent px-0">
                                         <div class="fw-semibold">Admin</div>
                                         <div>Email: <code>admin@lms.local</code></div>
@@ -55,7 +59,9 @@
                                         <div>Email: <code>requester@lms.local</code></div>
                                         <div>Password: <code>ChangeMe@123</code></div>
                                     </li>
-                                </ul>
+                                </ul> -->
+                                <img src="assets/img/aifaesa.png" alt="Login Illustration"
+                                    class="login-illustration mt-4">
                             </div>
                         </div>
                     </div>
