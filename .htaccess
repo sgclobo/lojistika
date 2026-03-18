@@ -1,0 +1,57 @@
+# Basic hardening and routing for Lojistika
+
+# Prevent directory browsing
+Options -Indexes
+
+# Keep content negotiation from rewriting extension-less paths unexpectedly
+Options -MultiViews
+
+# Default entry point rewrite
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /lojistika/
+
+    RewriteCond %{HTTPS} off
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    # Allow direct access to existing files and directories
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # Route everything else through index.php
+    RewriteRule ^ index.php [L,QSA]
+</IfModule>
+
+# Basic MIME/charset defaults
+AddDefaultCharset UTF-8
+
+# Browser caching for static assets
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/css "access plus 7 days"
+    ExpiresByType application/javascript "access plus 7 days"
+    ExpiresByType image/jpeg "access plus 30 days"
+    ExpiresByType image/png "access plus 30 days"
+    ExpiresByType image/gif "access plus 30 days"
+    ExpiresByType image/webp "access plus 30 days"
+    ExpiresByType image/svg+xml "access plus 30 days"
+    ExpiresByType font/woff2 "access plus 30 days"
+</IfModule>
+
+# Basic security headers (only if mod_headers is enabled)
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# Block direct access to sensitive files
+<FilesMatch "^(database\.sql|\.env|composer\.(json|lock)|README\.md|report\.md)$">
+    Require all denied
+</FilesMatch>
+
+# Block access to credentials templates and private config artifacts
+<FilesMatch "^(db_credentials\.php|db_credentials\.example\.php)$">
+    Require all denied
+</FilesMatch>
