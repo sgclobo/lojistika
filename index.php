@@ -25,7 +25,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'login
     redirect('index.php?page=login');
 }
 
-$page = $_GET['page'] ?? 'dashboard';
+$page = $_GET['page'] ?? '';
+
+if ($page === '') {
+    redirect('index.php?page=dashboard');
+}
 $pageTitle = 'Logistics Management System';
 $target = null;
 
