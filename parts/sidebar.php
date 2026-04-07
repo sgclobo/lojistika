@@ -16,7 +16,8 @@
             <li class="nav-item"><a class="nav-link" href="index.php?page=reports"><i class="bi bi-bar-chart-line me-2"></i>Reports</a></li>
         <?php endif; ?>
         <?php if (has_role(['admin'])): ?>
-            <li class="nav-item"><a class="nav-link" href="index.php?page=users"><i class="bi bi-people me-2"></i>User Management</a></li>
+            <li class="nav-item"><a class="nav-link" href="index.php?page=users"><i class="bi bi-people me-2"></i>Users</a></li>
+            <li class="nav-item"><a class="nav-link" href="index.php?page=activity_monitor"><i class="bi bi-activity me-2"></i>Activity Monitor</a></li>
         <?php endif; ?>
     </ul>
 

@@ -4,6 +4,7 @@
 
 SET FOREIGN_KEY_CHECKS = 0;
 
+DROP TABLE IF EXISTS activity_log;
 DROP TABLE IF EXISTS requisition_items;
 DROP TABLE IF EXISTS requisitions;
 DROP TABLE IF EXISTS stock_movements;

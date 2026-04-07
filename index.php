@@ -5,6 +5,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/config/helpers.php';
 
 if (isset($_GET['action']) && $_GET['action'] === 'logout') {
+    log_activity('logout', 'User signed out');
     logout_user();
     set_flash('success', 'You have been signed out.');
     redirect('index.php?page=login');
@@ -17,6 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'login
 
     if ($user) {
         login_user($user);
+        log_activity('login', 'User signed in');
         set_flash('success', 'Welcome back, ' . $user['full_name'] . '.');
         redirect('index.php?page=dashboard');
     }
@@ -112,6 +114,11 @@ switch ($page) {
         $pageTitle = 'Edit User';
         $target = __DIR__ . '/modules/users/edit.php';
         break;
+    case 'activity_monitor':
+        require_roles(['admin']);
+        $pageTitle = 'Activity Monitor';
+        $target = __DIR__ . '/modules/activity/index.php';
+        break;
     default:
         $pageTitle = 'Page Not Found';
         $target = null;
@@ -119,6 +126,13 @@ switch ($page) {
 }
 
 require __DIR__ . '/parts/header.php';
+
+if (is_logged_in() && $page !== 'login') {
+    $skipLogPages = ['dashboard'];
+    if (!in_array($page, $skipLogPages, true)) {
+        log_activity('page_access', 'Accessed page: ' . $page);
+    }
+}
 
 if ($page !== 'login') {
     require __DIR__ . '/parts/sidebar.php';

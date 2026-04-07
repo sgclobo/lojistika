@@ -264,3 +264,38 @@ function asset_url(string $relativePath): string
 
     return $version ? $assetPath . '?v=' . rawurlencode($version) : $assetPath;
 }
+
+function log_activity(string $eventType, string $description): void
+{
+    static $tableEnsured = false;
+
+    if (!$tableEnsured) {
+        db()->query("CREATE TABLE IF NOT EXISTS activity_log (
+            id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+            user_id INT UNSIGNED NOT NULL DEFAULT 0,
+            user_name VARCHAR(120) NOT NULL DEFAULT '',
+            event_type VARCHAR(50) NOT NULL,
+            description VARCHAR(255) NOT NULL,
+            ip_address VARCHAR(45) NOT NULL DEFAULT '',
+            created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            INDEX idx_user_id (user_id),
+            INDEX idx_event_type (event_type),
+            INDEX idx_created_at (created_at)
+        ) ENGINE=InnoDB");
+        $tableEnsured = true;
+    }
+
+    $user = current_user();
+    $userId = $user ? (int) $user['id'] : 0;
+    $userName = $user ? (string) $user['full_name'] : '';
+    $ip = (string) ($_SERVER['REMOTE_ADDR'] ?? '');
+
+    $stmt = db()->prepare(
+        'INSERT INTO activity_log (user_id, user_name, event_type, description, ip_address) VALUES (?, ?, ?, ?, ?)'
+    );
+    if ($stmt) {
+        $stmt->bind_param('issss', $userId, $userName, $eventType, $description, $ip);
+        $stmt->execute();
+        $stmt->close();
+    }
+}
