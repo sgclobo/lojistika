@@ -97,6 +97,21 @@ switch ($page) {
         $pageTitle = 'Reports';
         $target = __DIR__ . '/modules/reports/index.php';
         break;
+    case 'users':
+        require_roles(['admin']);
+        $pageTitle = 'User Management';
+        $target = __DIR__ . '/modules/users/index.php';
+        break;
+    case 'user_view':
+        require_roles(['admin']);
+        $pageTitle = 'View User';
+        $target = __DIR__ . '/modules/users/view.php';
+        break;
+    case 'user_edit':
+        require_roles(['admin']);
+        $pageTitle = 'Edit User';
+        $target = __DIR__ . '/modules/users/edit.php';
+        break;
     default:
         $pageTitle = 'Page Not Found';
         $target = null;
