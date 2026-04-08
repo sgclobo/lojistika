@@ -85,21 +85,21 @@ function event_label(string $type): string
                 <div class="col-sm-4">
                     <label class="form-label mb-1 small">User</label>
                     <input class="form-control form-control-sm" name="user" placeholder="Search by name…"
-                           value="<?= h($filterUser) ?>">
+                        value="<?= h($filterUser) ?>">
                 </div>
                 <div class="col-sm-3">
                     <label class="form-label mb-1 small">Event Type</label>
                     <select class="form-select form-select-sm" name="event">
                         <option value="">All events</option>
-                        <option value="login"       <?= $filterEvent === 'login'       ? 'selected' : '' ?>>Login</option>
-                        <option value="logout"      <?= $filterEvent === 'logout'      ? 'selected' : '' ?>>Logout</option>
+                        <option value="login" <?= $filterEvent === 'login'       ? 'selected' : '' ?>>Login</option>
+                        <option value="logout" <?= $filterEvent === 'logout'      ? 'selected' : '' ?>>Logout</option>
                         <option value="page_access" <?= $filterEvent === 'page_access' ? 'selected' : '' ?>>Page Access</option>
                     </select>
                 </div>
                 <div class="col-sm-3">
                     <label class="form-label mb-1 small">Date</label>
                     <input type="date" class="form-control form-control-sm" name="date"
-                           value="<?= h($filterDate) ?>">
+                        value="<?= h($filterDate) ?>">
                 </div>
                 <div class="col-sm-2">
                     <button class="btn btn-sm btn-primary w-100" type="submit">
@@ -158,9 +158,9 @@ function event_label(string $type): string
             </table>
         </div>
         <?php if ($count >= 500): ?>
-        <div class="card-footer text-muted small">
-            Showing last 500 records. Use filters to narrow results.
-        </div>
+            <div class="card-footer text-muted small">
+                Showing last 500 records. Use filters to narrow results.
+            </div>
         <?php endif; ?>
     </div>
 </div>

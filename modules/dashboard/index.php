@@ -61,26 +61,28 @@ $recentMovements = db()->query($recentMovementsSql);
                 <div class="card-body table-responsive">
                     <table class="table table-sm align-middle">
                         <thead>
-                        <tr>
-                            <th>Code</th>
-                            <th>Product</th>
-                            <th>Stock</th>
-                            <th>Min</th>
-                        </tr>
+                            <tr>
+                                <th>Code</th>
+                                <th>Product</th>
+                                <th>Stock</th>
+                                <th>Min</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        <?php if ($lowStockItems->num_rows === 0): ?>
-                            <tr><td colspan="4" class="text-center text-muted">No low stock items.</td></tr>
-                        <?php else: ?>
-                            <?php while ($item = $lowStockItems->fetch_assoc()): ?>
+                            <?php if ($lowStockItems->num_rows === 0): ?>
                                 <tr>
-                                    <td><?= h($item['code']) ?></td>
-                                    <td><?= h($item['name']) ?></td>
-                                    <td><span class="badge text-bg-danger"><?= h((string) $item['current_stock']) ?></span></td>
-                                    <td><?= h((string) $item['min_stock']) ?></td>
+                                    <td colspan="4" class="text-center text-muted">No low stock items.</td>
                                 </tr>
-                            <?php endwhile; ?>
-                        <?php endif; ?>
+                            <?php else: ?>
+                                <?php while ($item = $lowStockItems->fetch_assoc()): ?>
+                                    <tr>
+                                        <td><?= h($item['code']) ?></td>
+                                        <td><?= h($item['name']) ?></td>
+                                        <td><span class="badge text-bg-danger"><?= h((string) $item['current_stock']) ?></span></td>
+                                        <td><?= h((string) $item['min_stock']) ?></td>
+                                    </tr>
+                                <?php endwhile; ?>
+                            <?php endif; ?>
                         </tbody>
                     </table>
                 </div>
@@ -93,26 +95,26 @@ $recentMovements = db()->query($recentMovementsSql);
                 <div class="card-body table-responsive">
                     <table class="table table-sm align-middle">
                         <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Product</th>
-                            <th>Type</th>
-                            <th>Qty</th>
-                        </tr>
+                            <tr>
+                                <th>Date</th>
+                                <th>Product</th>
+                                <th>Type</th>
+                                <th>Qty</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        <?php while ($row = $recentMovements->fetch_assoc()): ?>
-                            <tr>
-                                <td><?= h($row['created_at']) ?></td>
-                                <td><?= h($row['product_name']) ?></td>
-                                <td>
-                                    <span class="badge <?= $row['movement_type'] === 'in' ? 'text-bg-success' : 'text-bg-warning' ?>">
-                                        <?= strtoupper(h($row['movement_type'])) ?>
-                                    </span>
-                                </td>
-                                <td><?= h((string) $row['quantity']) ?></td>
-                            </tr>
-                        <?php endwhile; ?>
+                            <?php while ($row = $recentMovements->fetch_assoc()): ?>
+                                <tr>
+                                    <td><?= h($row['created_at']) ?></td>
+                                    <td><?= h($row['product_name']) ?></td>
+                                    <td>
+                                        <span class="badge <?= $row['movement_type'] === 'in' ? 'text-bg-success' : 'text-bg-warning' ?>">
+                                            <?= strtoupper(h($row['movement_type'])) ?>
+                                        </span>
+                                    </td>
+                                    <td><?= h((string) $row['quantity']) ?></td>
+                                </tr>
+                            <?php endwhile; ?>
                         </tbody>
                     </table>
                 </div>

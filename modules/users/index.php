@@ -45,7 +45,8 @@ $users = db()->query('SELECT id, full_name, email, role, is_active, created_at F
                     </tr>
                 </thead>
                 <tbody>
-                    <?php $found = false; while ($row = $users->fetch_assoc()): $found = true; ?>
+                    <?php $found = false;
+                    while ($row = $users->fetch_assoc()): $found = true; ?>
                         <tr>
                             <td class="text-muted"><?= (int) $row['id'] ?></td>
                             <td><?= h($row['full_name']) ?></td>
@@ -65,13 +66,13 @@ $users = db()->query('SELECT id, full_name, email, role, is_active, created_at F
                             </td>
                             <td class="text-end">
                                 <a class="btn btn-sm btn-outline-secondary"
-                                   href="index.php?page=user_edit&id=<?= (int) $row['id'] ?>"
-                                   title="Edit"><i class="bi bi-pencil"></i></a>
+                                    href="index.php?page=user_edit&id=<?= (int) $row['id'] ?>"
+                                    title="Edit"><i class="bi bi-pencil"></i></a>
                                 <?php if ((int) $row['id'] !== (int) current_user()['id']): ?>
                                     <a class="btn btn-sm btn-outline-danger"
-                                       data-confirm="Delete user &quot;<?= h($row['full_name']) ?>&quot;? This action cannot be undone."
-                                       href="index.php?page=users&delete=<?= (int) $row['id'] ?>"
-                                       title="Delete"><i class="bi bi-trash"></i></a>
+                                        data-confirm="Delete user &quot;<?= h($row['full_name']) ?>&quot;? This action cannot be undone."
+                                        href="index.php?page=users&delete=<?= (int) $row['id'] ?>"
+                                        title="Delete"><i class="bi bi-trash"></i></a>
                                 <?php endif; ?>
                             </td>
                         </tr>
