@@ -18,11 +18,18 @@ $user = current_user();
 
 <body>
     <header class="header fixed-top d-flex align-items-center justify-content-between px-3">
-        <a href="index.php?page=<?= $user ? 'dashboard' : 'login' ?>"
-            class="brand d-flex align-items-center text-decoration-none">
-            <img src="<?= h(asset_url('assets/img/aifaesa.png')) ?>" alt="AIFAESA Logo" class="brand-logo me-2">
-            <span>Lojistika</span>
-        </a>
+        <div class="d-flex align-items-center gap-2">
+            <?php if ($user): ?>
+            <button id="sidebarToggle" class="btn btn-sm btn-sidebar-toggle" title="Toggle sidebar" aria-label="Toggle sidebar">
+                <i class="bi bi-list fs-5"></i>
+            </button>
+            <?php endif; ?>
+            <a href="index.php?page=<?= $user ? 'dashboard' : 'login' ?>"
+                class="brand d-flex align-items-center text-decoration-none">
+                <img src="<?= h(asset_url('assets/img/aifaesa.png')) ?>" alt="AIFAESA Logo" class="brand-logo me-2">
+                <span>Lojistika</span>
+            </a>
+        </div>
         <div class="d-flex align-items-center gap-2">
             <?php if ($user): ?>
             <span class="badge text-bg-light text-uppercase"><?= h($user['role']) ?></span>

@@ -1,4 +1,19 @@
 document.addEventListener("DOMContentLoaded", function () {
+  // Sidebar toggle
+  var toggleBtn = document.getElementById("sidebarToggle");
+  if (toggleBtn) {
+    if (localStorage.getItem("sidebarCollapsed") === "1") {
+      document.body.classList.add("sidebar-collapsed");
+    }
+    toggleBtn.addEventListener("click", function () {
+      document.body.classList.toggle("sidebar-collapsed");
+      localStorage.setItem(
+        "sidebarCollapsed",
+        document.body.classList.contains("sidebar-collapsed") ? "1" : "0"
+      );
+    });
+  }
+
   function populateSelectOptions(select, options, emptyLabel) {
     if (!select) {
       return;

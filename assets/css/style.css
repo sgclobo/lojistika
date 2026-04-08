@@ -59,6 +59,7 @@ body {
   background: var(--lms-sidebar);
   border-right: 1px solid var(--lms-border);
   padding: 16px 10px;
+  transition: left 0.25s ease, width 0.25s ease;
 }
 
 .sidebar .nav-link {
@@ -77,6 +78,33 @@ body {
   margin-top: 60px;
   margin-left: 250px;
   padding: 20px;
+  transition: margin-left 0.25s ease;
+}
+
+/* Sidebar collapsed state */
+body.sidebar-collapsed .sidebar {
+  left: -250px;
+}
+
+body.sidebar-collapsed .main {
+  margin-left: 0;
+}
+
+/* Toggle button */
+.btn-sidebar-toggle {
+  color: #fff;
+  background: transparent;
+  border: none;
+  padding: 4px 8px;
+  line-height: 1;
+}
+
+.btn-sidebar-toggle:hover,
+.btn-sidebar-toggle:focus {
+  color: #dbeeff;
+  background: rgba(255, 255, 255, 0.12);
+  outline: none;
+  box-shadow: none;
 }
 
 .card.stat-card {
