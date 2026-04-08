@@ -13,17 +13,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'chang
     $confirmPassword = (string) ($_POST['confirm_password'] ?? '');
 
     if ($currentPassword === '' || $newPassword === '' || $confirmPassword === '') {
-        set_flash('danger', 'All password fields are required.');
+        set_flash('danger', lang('msg.pwd_all_required'));
         redirect('index.php?page=change_password');
     }
 
     if (strlen($newPassword) < 8) {
-        set_flash('danger', 'New password must have at least 8 characters.');
+        set_flash('danger', lang('msg.pwd_too_short'));
         redirect('index.php?page=change_password');
     }
 
     if ($newPassword !== $confirmPassword) {
-        set_flash('danger', 'New password and confirmation do not match.');
+        set_flash('danger', lang('msg.pwd_mismatch'));
         redirect('index.php?page=change_password');
     }
 
@@ -34,12 +34,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'chang
     $stmt->close();
 
     if (!$row || !password_verify($currentPassword, (string) $row['password_hash'])) {
-        set_flash('danger', 'Current password is incorrect.');
+        set_flash('danger', lang('msg.pwd_wrong_current'));
         redirect('index.php?page=change_password');
     }
 
     if (password_verify($newPassword, (string) $row['password_hash'])) {
-        set_flash('warning', 'New password must be different from current password.');
+        set_flash('warning', lang('msg.pwd_same_as_current'));
         redirect('index.php?page=change_password');
     }
 
@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'chang
     $updateStmt->execute();
     $updateStmt->close();
 
-    set_flash('success', 'Password changed successfully.');
+    set_flash('success', lang('msg.pwd_changed'));
     redirect('index.php?page=dashboard');
 }
 ?>
@@ -58,31 +58,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'chang
     <div class="row justify-content-center">
         <div class="col-xl-6 col-lg-7">
             <div class="card shadow-sm border-0">
-                <div class="card-header fw-semibold">Change Password</div>
+                <div class="card-header fw-semibold"><?= lang('auth.change_password') ?></div>
                 <div class="card-body">
-                    <p class="text-muted mb-4">Update your account password for <?= h($user['full_name']) ?>.</p>
+                    <p class="text-muted mb-4"><?= lang('auth.update_desc', $user['full_name']) ?></p>
 
                     <form method="post" class="row g-3" novalidate>
                         <input type="hidden" name="action" value="change_password">
 
                         <div class="col-12">
-                            <label for="currentPassword" class="form-label">Current Password</label>
+                            <label for="currentPassword" class="form-label"><?= lang('lbl.current_password') ?></label>
                             <input type="password" class="form-control" id="currentPassword" name="current_password" autocomplete="current-password" required>
                         </div>
 
                         <div class="col-md-6">
-                            <label for="newPassword" class="form-label">New Password</label>
+                            <label for="newPassword" class="form-label"><?= lang('lbl.new_password') ?></label>
                             <input type="password" class="form-control" id="newPassword" name="new_password" minlength="8" autocomplete="new-password" required>
                         </div>
 
                         <div class="col-md-6">
-                            <label for="confirmPassword" class="form-label">Confirm New Password</label>
+                            <label for="confirmPassword" class="form-label"><?= lang('lbl.confirm_new_password') ?></label>
                             <input type="password" class="form-control" id="confirmPassword" name="confirm_password" minlength="8" autocomplete="new-password" required>
                         </div>
 
                         <div class="col-12 d-flex gap-2">
-                            <button type="submit" class="btn btn-primary">Update Password</button>
-                            <a href="index.php?page=dashboard" class="btn btn-outline-secondary">Cancel</a>
+                            <button type="submit" class="btn btn-primary"><?= lang('btn.update_password') ?></button>
+                            <a href="index.php?page=dashboard" class="btn btn-outline-secondary"><?= lang('btn.cancel') ?></a>
                         </div>
                     </form>
                 </div>

@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $userId = (int) current_user()['id'];
 
     if ($name === '') {
-        set_flash('danger', 'Category name is required.');
+        set_flash('danger', lang('msg.cat_name_required'));
         redirect('index.php?page=categories');
     }
 
@@ -18,13 +18,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bind_param('ssii', $name, $description, $userId, $id);
         $stmt->execute();
         $stmt->close();
-        set_flash('success', 'Category updated successfully.');
+        set_flash('success', lang('msg.cat_updated'));
     } else {
         $stmt = db()->prepare('INSERT INTO categories (name, description, created_by, updated_by) VALUES (?, ?, ?, ?)');
         $stmt->bind_param('ssii', $name, $description, $userId, $userId);
         $stmt->execute();
         $stmt->close();
-        set_flash('success', 'Category created successfully.');
+        set_flash('success', lang('msg.cat_created'));
     }
 
     redirect('index.php?page=categories');
@@ -36,7 +36,7 @@ if (isset($_GET['delete'])) {
     $stmt->bind_param('i', $deleteId);
     $stmt->execute();
     $stmt->close();
-    set_flash('success', 'Category deleted successfully.');
+    set_flash('success', lang('msg.cat_deleted'));
     redirect('index.php?page=categories');
 }
 
@@ -57,19 +57,19 @@ $categories = db()->query('SELECT * FROM categories ORDER BY name ASC');
     <div class="row g-3">
         <div class="col-lg-4">
             <div class="card">
-                <div class="card-header fw-semibold"><?= $edit ? 'Edit Category' : 'Add Category' ?></div>
+                <div class="card-header fw-semibold"><?= $edit ? lang('cat.edit') : lang('cat.add') ?></div>
                 <div class="card-body">
                     <form method="post">
                         <input type="hidden" name="id" value="<?= (int) ($edit['id'] ?? 0) ?>">
                         <div class="mb-3">
-                            <label class="form-label">Name</label>
+                            <label class="form-label"><?= lang('lbl.name') ?></label>
                             <input type="text" name="name" class="form-control" required value="<?= h($edit['name'] ?? '') ?>">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Description</label>
+                            <label class="form-label"><?= lang('lbl.description') ?></label>
                             <textarea name="description" class="form-control" rows="3"><?= h($edit['description'] ?? '') ?></textarea>
                         </div>
-                        <button class="btn btn-primary" type="submit">Save Category</button>
+                        <button class="btn btn-primary" type="submit"><?= lang('cat.save') ?></button>
                     </form>
                 </div>
             </div>
@@ -77,27 +77,27 @@ $categories = db()->query('SELECT * FROM categories ORDER BY name ASC');
 
         <div class="col-lg-8">
             <div class="card">
-                <div class="card-header fw-semibold">Category List</div>
+                <div class="card-header fw-semibold"><?= lang('cat.list') ?></div>
                 <div class="card-body table-responsive">
                     <table class="table table-striped table-sm align-middle">
                         <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Description</th>
-                            <th style="width: 150px;">Action</th>
-                        </tr>
+                            <tr>
+                                <th><?= lang('lbl.name') ?></th>
+                                <th><?= lang('lbl.description') ?></th>
+                                <th style="width: 150px;"><?= lang('sys.action') ?></th>
+                            </tr>
                         </thead>
                         <tbody>
-                        <?php while ($row = $categories->fetch_assoc()): ?>
-                            <tr>
-                                <td><?= h($row['name']) ?></td>
-                                <td><?= h($row['description']) ?></td>
-                                <td>
-                                    <a class="btn btn-sm btn-outline-secondary" href="index.php?page=categories&edit=<?= (int) $row['id'] ?>">Edit</a>
-                                    <a class="btn btn-sm btn-outline-danger" data-confirm="Delete this category?" href="index.php?page=categories&delete=<?= (int) $row['id'] ?>">Delete</a>
-                                </td>
-                            </tr>
-                        <?php endwhile; ?>
+                            <?php while ($row = $categories->fetch_assoc()): ?>
+                                <tr>
+                                    <td><?= h($row['name']) ?></td>
+                                    <td><?= h($row['description']) ?></td>
+                                    <td>
+                                        <a class="btn btn-sm btn-outline-secondary" href="index.php?page=categories&edit=<?= (int) $row['id'] ?>"><?= lang('btn.edit') ?></a>
+                                        <a class="btn btn-sm btn-outline-danger" data-confirm="<?= h(lang('cat.delete_confirm')) ?>" href="index.php?page=categories&delete=<?= (int) $row['id'] ?>"><?= lang('btn.delete') ?></a>
+                                    </td>
+                                </tr>
+                            <?php endwhile; ?>
                         </tbody>
                     </table>
                 </div>

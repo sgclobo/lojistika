@@ -4,10 +4,20 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/config/helpers.php';
 
+// Language switch
+if (isset($_GET['action']) && $_GET['action'] === 'set_lang') {
+    set_locale((string) ($_GET['lang'] ?? 'en'));
+    $returnPage = (string) ($_GET['return'] ?? '');
+    if (preg_match('/^index\.php\?page=[a-zA-Z0-9_]+$/', $returnPage)) {
+        redirect($returnPage);
+    }
+    redirect('index.php?page=dashboard');
+}
+
 if (isset($_GET['action']) && $_GET['action'] === 'logout') {
     log_activity('logout', 'User signed out');
     logout_user();
-    set_flash('success', 'You have been signed out.');
+    set_flash('success', lang('msg.signed_out'));
     redirect('index.php?page=login');
 }
 
@@ -19,11 +29,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'login
     if ($user) {
         login_user($user);
         log_activity('login', 'User signed in');
-        set_flash('success', 'Welcome back, ' . $user['full_name'] . '.');
+        set_flash('success', lang('msg.login_welcome', $user['full_name']));
         redirect('index.php?page=dashboard');
     }
 
-    set_flash('danger', 'Invalid email or password.');
+    set_flash('danger', lang('msg.login_invalid'));
     redirect('index.php?page=login');
 }
 

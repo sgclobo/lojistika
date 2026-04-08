@@ -9,6 +9,39 @@ function db(): mysqli
     return db_connect();
 }
 
+// ── Language / i18n helpers ───────────────────────────────────────────────────
+
+function get_locale(): string
+{
+    return (isset($_SESSION['lang']) && $_SESSION['lang'] === 'tet') ? 'tet' : 'en';
+}
+
+function set_locale(string $locale): void
+{
+    $_SESSION['lang'] = in_array($locale, ['en', 'tet'], true) ? $locale : 'en';
+}
+
+function lang(string $key, mixed ...$args): string
+{
+    static $translations = null;
+    static $loadedLocale = null;
+
+    $currentLocale = get_locale();
+
+    if ($loadedLocale !== $currentLocale || $translations === null) {
+        $loadedLocale = $currentLocale;
+        $file = __DIR__ . '/lang/' . $currentLocale . '.php';
+        if (!is_file($file)) {
+            $file = __DIR__ . '/lang/en.php';
+        }
+        $translations = require $file;
+    }
+
+    $value = $translations[$key] ?? $key;
+
+    return $args ? sprintf($value, ...$args) : $value;
+}
+
 function h(?string $value): string
 {
     return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
@@ -143,7 +176,7 @@ function can_register_users(): bool
 function require_register_users_permission(): void
 {
     if (!can_register_users()) {
-        set_flash('danger', 'Only the authorized administrator can register new users.');
+        set_flash('danger', lang('msg.admin_register_only'));
         redirect('index.php?page=dashboard');
     }
 }
@@ -151,7 +184,7 @@ function require_register_users_permission(): void
 function require_login(): void
 {
     if (!is_logged_in()) {
-        set_flash('warning', 'Please sign in to continue.');
+        set_flash('warning', lang('msg.please_sign_in'));
         redirect('index.php?page=login');
     }
 }
@@ -170,7 +203,7 @@ function has_role(array $roles): bool
 function require_roles(array $roles): void
 {
     if (!has_role($roles)) {
-        set_flash('danger', 'You do not have permission to access this section.');
+        set_flash('danger', lang('msg.no_permission'));
         redirect('index.php?page=dashboard');
     }
 }

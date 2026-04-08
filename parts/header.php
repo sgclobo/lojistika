@@ -20,9 +20,9 @@ $user = current_user();
     <header class="header fixed-top d-flex align-items-center justify-content-between px-3">
         <div class="d-flex align-items-center gap-2">
             <?php if ($user): ?>
-            <button id="sidebarToggle" class="btn btn-sm btn-sidebar-toggle" title="Toggle sidebar" aria-label="Toggle sidebar">
-                <i class="bi bi-list fs-5"></i>
-            </button>
+                <button id="sidebarToggle" class="btn btn-sm btn-sidebar-toggle" title="Toggle sidebar" aria-label="Toggle sidebar">
+                    <i class="bi bi-list fs-5"></i>
+                </button>
             <?php endif; ?>
             <a href="index.php?page=<?= $user ? 'dashboard' : 'login' ?>"
                 class="brand d-flex align-items-center text-decoration-none">
@@ -32,20 +32,35 @@ $user = current_user();
         </div>
         <div class="d-flex align-items-center gap-2">
             <?php if ($user): ?>
-            <span class="badge text-bg-light text-uppercase"><?= h($user['role']) ?></span>
-            <a class="small text-light user-name-link" href="index.php?page=change_password" title="Change password"><?= h($user['full_name']) ?></a>
-            <a class="btn btn-sm btn-outline-light" href="index.php?action=logout">Sign out</a>
+                <span class="badge text-bg-light text-uppercase"><?= h($user['role']) ?></span>
+                <a class="small text-light user-name-link" href="index.php?page=change_password" title="Change password"><?= h($user['full_name']) ?></a>
+            <?php endif; ?>
+            <?php
+            $currentPage = $_GET['page'] ?? 'dashboard';
+            $returnUrl   = urlencode('index.php?page=' . $currentPage);
+            $locale      = get_locale();
+            ?>
+            <div class="d-flex gap-1">
+                <a href="index.php?action=set_lang&lang=en&return=<?= $returnUrl ?>"
+                    class="btn btn-xs lang-btn <?= $locale === 'en' ? 'lang-btn-active' : '' ?>"
+                    title="English">EN</a>
+                <a href="index.php?action=set_lang&lang=tet&return=<?= $returnUrl ?>"
+                    class="btn btn-xs lang-btn <?= $locale === 'tet' ? 'lang-btn-active' : '' ?>"
+                    title="Tetum">TET</a>
+            </div>
+            <?php if ($user): ?>
+                <a class="btn btn-sm btn-outline-light" href="index.php?action=logout"><?= lang('sys.sign_out') ?></a>
             <?php else: ?>
-            <span class="small text-light">Please sign in</span>
+                <span class="small text-light"><?= lang('sys.please_sign_in') ?></span>
             <?php endif; ?>
         </div>
     </header>
 
     <?php if ($flash): ?>
-    <div class="container-fluid mt-header">
-        <div class="alert alert-<?= h($flash['type']) ?> alert-dismissible fade show" role="alert">
-            <?= h($flash['message']) ?>
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <div class="container-fluid mt-header">
+            <div class="alert alert-<?= h($flash['type']) ?> alert-dismissible fade show" role="alert">
+                <?= h($flash['message']) ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
         </div>
-    </div>
     <?php endif; ?>

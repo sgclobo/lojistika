@@ -107,6 +107,31 @@ body.sidebar-collapsed .main {
   box-shadow: none;
 }
 
+/* Language switcher */
+.lang-btn {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 7px;
+  color: rgba(255, 255, 255, 0.7);
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 4px;
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  transition: background 0.15s, color 0.15s;
+}
+
+.lang-btn:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.lang-btn-active {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.7);
+}
+
 .card.stat-card {
   border: 1px solid var(--lms-border);
   box-shadow: 0 6px 20px rgba(31, 111, 178, 0.08);

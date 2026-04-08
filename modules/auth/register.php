@@ -61,55 +61,55 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'regis
     <div class="col-xl-8 col-lg-9">
         <div class="card shadow-sm border-0">
             <div class="card-body p-4 p-lg-5">
-                <h3 class="mb-2">Register New User</h3>
-                <p class="text-muted mb-4">Create a user account for the logistics system.</p>
+                <h3 class="mb-2"><?= lang('auth.register_heading') ?></h3>
+                <p class="text-muted mb-4"><?= lang('auth.register_subtitle') ?></p>
 
                 <form method="post" action="index.php?page=register" class="row g-3" novalidate>
                     <input type="hidden" name="action" value="register">
 
                     <div class="col-md-6">
-                        <label for="fullName" class="form-label">Full Name</label>
+                        <label for="fullName" class="form-label"><?= lang('lbl.full_name') ?></label>
                         <input type="text" class="form-control" id="fullName" name="full_name" required>
                     </div>
 
                     <div class="col-md-6">
-                        <label for="email" class="form-label">Email</label>
+                        <label for="email" class="form-label"><?= lang('lbl.email') ?></label>
                         <input type="email" class="form-control" id="email" name="email" required autocomplete="email">
                     </div>
 
                     <div class="col-md-6">
-                        <label for="password" class="form-label">Password</label>
+                        <label for="password" class="form-label"><?= lang('lbl.password') ?></label>
                         <input type="password" class="form-control" id="password" name="password" required minlength="8" autocomplete="new-password">
                     </div>
 
                     <div class="col-md-6">
-                        <label for="confirmPassword" class="form-label">Confirm Password</label>
+                        <label for="confirmPassword" class="form-label"><?= lang('auth.confirm_password') ?></label>
                         <input type="password" class="form-control" id="confirmPassword" name="confirm_password" required minlength="8" autocomplete="new-password">
                     </div>
 
                     <div class="col-md-6">
-                        <label for="role" class="form-label">Role</label>
+                        <label for="role" class="form-label"><?= lang('lbl.role') ?></label>
                         <select class="form-select" id="role" name="role" data-register-role required>
-                            <option value="admin">Admin</option>
-                            <option value="warehouse">Warehouse</option>
-                            <option value="requester" selected>Requester</option>
+                            <option value="admin"><?= lang('auth.role_admin') ?></option>
+                            <option value="warehouse"><?= lang('auth.role_warehouse') ?></option>
+                            <option value="requester" selected><?= lang('auth.role_requester') ?></option>
                         </select>
                     </div>
 
                     <div class="col-md-6">
-                        <label for="departments" class="form-label">Department</label>
+                        <label for="departments" class="form-label"><?= lang('lbl.department') ?></label>
                         <select class="form-select" id="departments" name="departments" data-register-department required>
-                            <option value="">Select department</option>
+                            <option value=""><?= lang('lbl.select_dept') ?></option>
                             <?php foreach ($departments as $departmentName): ?>
                                 <option value="<?= h($departmentName) ?>"><?= h($departmentName) ?></option>
                             <?php endforeach; ?>
                         </select>
-                        <div class="form-text">Admin and Warehouse are automatically assigned to Departamento de Administracao e Financas.</div>
+                        <div class="form-text"><?= lang('auth.dept_hint') ?></div>
                     </div>
 
                     <div class="col-12 d-flex gap-2">
-                        <button type="submit" class="btn btn-primary">Register User</button>
-                        <a href="index.php?page=login" class="btn btn-outline-secondary">Back to Sign In</a>
+                        <button type="submit" class="btn btn-primary"><?= lang('btn.register_user') ?></button>
+                        <a href="index.php?page=login" class="btn btn-outline-secondary"><?= lang('auth.back_to_sign_in') ?></a>
                     </div>
                 </form>
             </div>

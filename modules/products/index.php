@@ -9,7 +9,7 @@ if (isset($_GET['delete'])) {
     $stmt->bind_param('i', $deleteId);
     $stmt->execute();
     $stmt->close();
-    set_flash('success', 'Product deleted successfully.');
+    set_flash('success', lang('msg.prod_deleted'));
     redirect('index.php?page=products');
 }
 
@@ -61,44 +61,46 @@ $products = $stmt->get_result();
             <div class="table-responsive">
                 <table class="table table-striped align-middle table-sm">
                     <thead>
-                    <tr>
-                        <th>Code</th>
-                        <th>Name</th>
-                        <th>Category</th>
-                        <th>Supplier</th>
-                        <th>Unit</th>
-                        <th>Min Stock</th>
-                        <th>Current Stock</th>
-                        <th>Action</th>
-                    </tr>
+                        <tr>
+                            <th>Code</th>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Supplier</th>
+                            <th>Unit</th>
+                            <th>Min Stock</th>
+                            <th>Current Stock</th>
+                            <th>Action</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    <?php if ($products->num_rows === 0): ?>
-                        <tr><td colspan="8" class="text-center text-muted">No products found.</td></tr>
-                    <?php else: ?>
-                        <?php while ($row = $products->fetch_assoc()): ?>
+                        <?php if ($products->num_rows === 0): ?>
                             <tr>
-                                <td><?= h($row['code']) ?></td>
-                                <td><?= h($row['name']) ?></td>
-                                <td><?= h($row['category_name']) ?></td>
-                                <td><?= h($row['supplier_name']) ?></td>
-                                <td><?= h($row['unit']) ?></td>
-                                <td><?= h((string) $row['min_stock']) ?></td>
-                                <td>
-                                    <?php $stock = get_product_stock((int) $row['id']); ?>
-                                    <span class="badge <?= $stock <= (float) $row['min_stock'] ? 'text-bg-danger' : 'text-bg-success' ?>">
-                                        <?= h((string) $stock) ?>
-                                    </span>
-                                </td>
-                                <td>
-                                    <a href="index.php?page=product_form&id=<?= (int) $row['id'] ?>" class="btn btn-sm btn-outline-secondary">Edit</a>
-                                    <?php if (has_role(['admin'])): ?>
-                                        <a href="index.php?page=products&delete=<?= (int) $row['id'] ?>" class="btn btn-sm btn-outline-danger" data-confirm="Delete this product?">Delete</a>
-                                    <?php endif; ?>
-                                </td>
+                                <td colspan="8" class="text-center text-muted">No products found.</td>
                             </tr>
-                        <?php endwhile; ?>
-                    <?php endif; ?>
+                        <?php else: ?>
+                            <?php while ($row = $products->fetch_assoc()): ?>
+                                <tr>
+                                    <td><?= h($row['code']) ?></td>
+                                    <td><?= h($row['name']) ?></td>
+                                    <td><?= h($row['category_name']) ?></td>
+                                    <td><?= h($row['supplier_name']) ?></td>
+                                    <td><?= h($row['unit']) ?></td>
+                                    <td><?= h((string) $row['min_stock']) ?></td>
+                                    <td>
+                                        <?php $stock = get_product_stock((int) $row['id']); ?>
+                                        <span class="badge <?= $stock <= (float) $row['min_stock'] ? 'text-bg-danger' : 'text-bg-success' ?>">
+                                            <?= h((string) $stock) ?>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <a href="index.php?page=product_form&id=<?= (int) $row['id'] ?>" class="btn btn-sm btn-outline-secondary">Edit</a>
+                                        <?php if (has_role(['admin'])): ?>
+                                            <a href="index.php?page=products&delete=<?= (int) $row['id'] ?>" class="btn btn-sm btn-outline-danger" data-confirm="Delete this product?">Delete</a>
+                                        <?php endif; ?>
+                                    </td>
+                                </tr>
+                            <?php endwhile; ?>
+                        <?php endif; ?>
                     </tbody>
                 </table>
             </div>

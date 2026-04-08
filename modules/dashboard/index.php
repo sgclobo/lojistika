@@ -31,7 +31,7 @@ $recentMovements = db()->query($recentMovementsSql);
         <div class="col-md-4">
             <div class="card stat-card">
                 <div class="card-body">
-                    <h6 class="text-muted">Total Products</h6>
+                    <h6 class="text-muted"><?= lang('dash.total_products') ?></h6>
                     <h3><?= (int) $totals['total_products'] ?></h3>
                 </div>
             </div>
@@ -39,7 +39,7 @@ $recentMovements = db()->query($recentMovementsSql);
         <div class="col-md-4">
             <div class="card stat-card">
                 <div class="card-body">
-                    <h6 class="text-muted">Low Stock Alerts</h6>
+                    <h6 class="text-muted"><?= lang('dash.low_stock_alerts') ?></h6>
                     <h3><?= (int) $lowStockItems->num_rows ?></h3>
                 </div>
             </div>
@@ -47,7 +47,7 @@ $recentMovements = db()->query($recentMovementsSql);
         <div class="col-md-4">
             <div class="card stat-card">
                 <div class="card-body">
-                    <h6 class="text-muted">Pending Requisitions</h6>
+                    <h6 class="text-muted"><?= lang('dash.pending_requisitions') ?></h6>
                     <h3><?= (int) $totals['pending_requisitions'] ?></h3>
                 </div>
             </div>
@@ -57,21 +57,21 @@ $recentMovements = db()->query($recentMovementsSql);
     <div class="row g-3">
         <div class="col-lg-6">
             <div class="card">
-                <div class="card-header fw-semibold">Low Stock Items</div>
+                <div class="card-header fw-semibold"><?= lang('dash.low_stock_items') ?></div>
                 <div class="card-body table-responsive">
                     <table class="table table-sm align-middle">
                         <thead>
                             <tr>
-                                <th>Code</th>
-                                <th>Product</th>
-                                <th>Stock</th>
-                                <th>Min</th>
+                                <th><?= lang('lbl.code') ?></th>
+                                <th><?= lang('lbl.product') ?></th>
+                                <th><?= lang('lbl.current_stock') ?></th>
+                                <th><?= lang('lbl.min') ?></th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php if ($lowStockItems->num_rows === 0): ?>
                                 <tr>
-                                    <td colspan="4" class="text-center text-muted">No low stock items.</td>
+                                    <td colspan="4" class="text-center text-muted"><?= lang('dash.no_low_stock') ?></td>
                                 </tr>
                             <?php else: ?>
                                 <?php while ($item = $lowStockItems->fetch_assoc()): ?>
@@ -91,15 +91,15 @@ $recentMovements = db()->query($recentMovementsSql);
 
         <div class="col-lg-6">
             <div class="card">
-                <div class="card-header fw-semibold">Recent Stock Movements</div>
+                <div class="card-header fw-semibold"><?= lang('dash.recent_movements') ?></div>
                 <div class="card-body table-responsive">
                     <table class="table table-sm align-middle">
                         <thead>
                             <tr>
-                                <th>Date</th>
-                                <th>Product</th>
-                                <th>Type</th>
-                                <th>Qty</th>
+                                <th><?= lang('lbl.date') ?></th>
+                                <th><?= lang('lbl.product') ?></th>
+                                <th><?= lang('lbl.type') ?></th>
+                                <th><?= lang('lbl.qty') ?></th>
                             </tr>
                         </thead>
                         <tbody>

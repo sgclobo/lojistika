@@ -10,28 +10,28 @@
                                     <img src="<?= h(asset_url('assets/img/aifaesa.png')) ?>" alt="AIFAESA Logo" class="login-logo me-2">
                                     <div>
                                         <div class="login-eyebrow">Lojistika AIFAESA, IP</div>
-                                        <h2 class="h4 mb-0">P&aacute;jina Login</h2>
+                                        <h2 class="h4 mb-0"><?= lang('auth.login_heading') ?></h2>
                                     </div>
                                 </div>
-                                <p class="text-muted mb-4">Favor hatama krednesial atu kontinua.</p>
+                                <p class="text-muted mb-4"><?= lang('auth.login_subtitle') ?></p>
 
                                 <form method="post" action="index.php?page=login" novalidate>
                                     <input type="hidden" name="action" value="login">
 
                                     <div class="mb-3">
-                                        <label for="email" class="form-label">Email</label>
+                                        <label for="email" class="form-label"><?= lang('lbl.email') ?></label>
                                         <input type="email" class="form-control form-control-lg" id="email" name="email"
                                             required autocomplete="username" placeholder="admin@lms.local">
                                     </div>
 
                                     <div class="mb-4">
-                                        <label for="password" class="form-label">Password</label>
+                                        <label for="password" class="form-label"><?= lang('lbl.password') ?></label>
                                         <input type="password" class="form-control form-control-lg" id="password"
                                             name="password" required autocomplete="current-password"
                                             placeholder="Enter password">
                                     </div>
 
-                                    <button type="submit" class="btn btn-primary btn-lg w-100">Tama</button>
+                                    <button type="submit" class="btn btn-primary btn-lg w-100"><?= lang('auth.sign_in_btn') ?></button>
                                 </form>
                             </div>
                         </div>
