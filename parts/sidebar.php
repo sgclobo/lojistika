@@ -1,5 +1,5 @@
 <?php $user = current_user(); ?>
-<?php $canManageInventory = has_role(['admin', 'warehouse']); ?>
+<?php $canManageInventory = has_role(['admin', 'supervisor', 'warehouse']); ?>
 
 <aside id="sidebar" class="sidebar">
     <ul class="nav flex-column">
@@ -17,6 +17,8 @@
         <?php endif; ?>
         <?php if (has_role(['admin'])): ?>
             <li class="nav-item"><a class="nav-link" href="index.php?page=users"><i class="bi bi-people me-2"></i><?= lang('nav.users') ?></a></li>
+        <?php endif; ?>
+        <?php if (has_role(['admin', 'supervisor'])): ?>
             <li class="nav-item"><a class="nav-link" href="index.php?page=activity_monitor"><i class="bi bi-activity me-2"></i><?= lang('nav.activity') ?></a></li>
         <?php endif; ?>
     </ul>

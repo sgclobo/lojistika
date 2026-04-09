@@ -71,27 +71,27 @@ switch ($page) {
         $target = __DIR__ . '/modules/dashboard/index.php';
         break;
     case 'categories':
-        require_roles(['admin', 'warehouse']);
+        require_roles(['admin', 'supervisor', 'warehouse']);
         $pageTitle = 'Categories';
         $target = __DIR__ . '/modules/categories/index.php';
         break;
     case 'products':
-        require_roles(['admin', 'warehouse']);
+        require_roles(['admin', 'supervisor', 'warehouse']);
         $pageTitle = 'Products';
         $target = __DIR__ . '/modules/products/index.php';
         break;
     case 'product_form':
-        require_roles(['admin', 'warehouse']);
+        require_roles(['admin', 'supervisor', 'warehouse']);
         $pageTitle = 'Product Form';
         $target = __DIR__ . '/modules/products/form.php';
         break;
     case 'stock_in':
-        require_roles(['admin', 'warehouse']);
+        require_roles(['admin', 'supervisor', 'warehouse']);
         $pageTitle = 'Stock In';
         $target = __DIR__ . '/modules/stock/stock_in.php';
         break;
     case 'stock_out':
-        require_roles(['admin', 'warehouse']);
+        require_roles(['admin', 'supervisor', 'warehouse']);
         $pageTitle = 'Stock Out';
         $target = __DIR__ . '/modules/stock/stock_out.php';
         break;
@@ -100,12 +100,12 @@ switch ($page) {
         $target = __DIR__ . '/modules/requisitions/index.php';
         break;
     case 'suppliers':
-        require_roles(['admin', 'warehouse']);
+        require_roles(['admin', 'supervisor', 'warehouse']);
         $pageTitle = 'Suppliers';
         $target = __DIR__ . '/modules/suppliers/index.php';
         break;
     case 'reports':
-        require_roles(['admin', 'warehouse']);
+        require_roles(['admin', 'supervisor', 'warehouse']);
         $pageTitle = 'Reports';
         $target = __DIR__ . '/modules/reports/index.php';
         break;
@@ -125,7 +125,7 @@ switch ($page) {
         $target = __DIR__ . '/modules/users/edit.php';
         break;
     case 'activity_monitor':
-        require_roles(['admin']);
+        require_roles(['admin', 'supervisor']);
         $pageTitle = 'Activity Monitor';
         $target = __DIR__ . '/modules/activity/index.php';
         break;

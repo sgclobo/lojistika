@@ -5,7 +5,7 @@ declare(strict_types=1);
 return [
     'host' => 'localhost',
     'port' => 3306,
-    'user' => 'your_db_user',
-    'pass' => 'your_db_password',
-    'name' => 'your_db_name',
+    'user' => 'u781534777_lojistikauser',
+    'pass' => 'S3rgio@1060',
+    'name' => 'u781534777_lojistika',
 ];

@@ -1,7 +1,7 @@
 <?php
 require_register_users_permission();
 
-$roles = ['admin', 'warehouse', 'requester'];
+$roles = ['admin', 'supervisor', 'warehouse', 'requester'];
 $departments = available_departments();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'register') {
@@ -91,6 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'regis
                         <label for="role" class="form-label"><?= lang('lbl.role') ?></label>
                         <select class="form-select" id="role" name="role" data-register-role required>
                             <option value="admin"><?= lang('auth.role_admin') ?></option>
+                            <option value="supervisor"><?= lang('auth.role_supervisor') ?></option>
                             <option value="warehouse"><?= lang('auth.role_warehouse') ?></option>
                             <option value="requester" selected><?= lang('auth.role_requester') ?></option>
                         </select>

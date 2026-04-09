@@ -1,5 +1,5 @@
 <?php
-require_roles(['admin', 'warehouse']);
+require_roles(['admin', 'supervisor', 'warehouse']);
 $pageTitle = 'Product Form';
 
 $id = (int) ($_GET['id'] ?? 0);
@@ -156,7 +156,7 @@ while ($nameRow = $productNamesQuery->fetch_assoc()) {
 </div>
 
 <script>
-window.productNamesByCategory = <?= json_encode($productNamesByCategory, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>;
-window.productFormCurrentCategory = <?= json_encode((int) $product['category_id']) ?>;
-window.productFormCurrentName = <?= json_encode((string) $product['name'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>;
+    window.productNamesByCategory = <?= json_encode($productNamesByCategory, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>;
+    window.productFormCurrentCategory = <?= json_encode((int) $product['category_id']) ?>;
+    window.productFormCurrentName = <?= json_encode((string) $product['name'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>;
 </script>

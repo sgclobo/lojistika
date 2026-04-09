@@ -70,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if ($action === 'approve') {
-        require_roles(['admin']);
+        require_roles(['admin', 'supervisor']);
         $requisitionId = (int) ($_POST['requisition_id'] ?? 0);
 
         if ($requisitionId <= 0) {
@@ -153,7 +153,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if ($action === 'reject') {
-        require_roles(['admin']);
+        require_roles(['admin', 'supervisor']);
         $requisitionId = (int) ($_POST['requisition_id'] ?? 0);
         $reason = trim($_POST['rejection_reason'] ?? '');
         if ($requisitionId > 0) {
@@ -168,7 +168,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if ($action === 'deliver') {
-        require_roles(['admin', 'warehouse']);
+        require_roles(['admin', 'supervisor', 'warehouse']);
         $requisitionId = (int) ($_POST['requisition_id'] ?? 0);
         if ($requisitionId > 0) {
             $status = 'delivered';
@@ -246,7 +246,8 @@ function status_badge(string $status): string
                                 <div class="col-4">
                                     <select class="form-select req-category-select" name="category_id[]" required>
                                         <option value="">Select category</option>
-                                        <?php mysqli_data_seek($categories, 0); while ($category = $categories->fetch_assoc()): ?>
+                                        <?php mysqli_data_seek($categories, 0);
+                                        while ($category = $categories->fetch_assoc()): ?>
                                             <option value="<?= (int) $category['id'] ?>"><?= h($category['name']) ?></option>
                                         <?php endwhile; ?>
                                     </select>
@@ -279,48 +280,48 @@ function status_badge(string $status): string
                     <input type="text" class="form-control form-control-sm mb-2" placeholder="Search table..." data-table-search="reqTable">
                     <table id="reqTable" class="table table-sm table-striped align-middle">
                         <thead>
-                        <tr>
-                            <th>Number</th>
-                            <th>Requester</th>
-                            <th>Department</th>
-                            <th>Status</th>
-                            <th>Created</th>
-                            <th>Action</th>
-                        </tr>
+                            <tr>
+                                <th>Number</th>
+                                <th>Requester</th>
+                                <th>Department</th>
+                                <th>Status</th>
+                                <th>Created</th>
+                                <th>Action</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        <?php while ($r = $requisitions->fetch_assoc()): ?>
-                            <tr>
-                                <td><?= h($r['req_number']) ?></td>
-                                <td><?= h($r['requester_name']) ?></td>
-                                <td><?= h($r['department']) ?></td>
-                                <td><span class="badge badge-status <?= status_badge($r['status']) ?>"><?= strtoupper(h($r['status'])) ?></span></td>
-                                <td><?= h($r['created_at']) ?></td>
-                                <td>
-                                    <?php if ($r['status'] === 'pending' && has_role(['admin'])): ?>
-                                        <form method="post" class="d-inline">
-                                            <input type="hidden" name="action" value="approve">
-                                            <input type="hidden" name="requisition_id" value="<?= (int) $r['id'] ?>">
-                                            <button class="btn btn-sm btn-outline-success">Approve</button>
-                                        </form>
-                                        <form method="post" class="d-inline">
-                                            <input type="hidden" name="action" value="reject">
-                                            <input type="hidden" name="requisition_id" value="<?= (int) $r['id'] ?>">
-                                            <input type="hidden" name="rejection_reason" value="Rejected by admin">
-                                            <button class="btn btn-sm btn-outline-danger">Reject</button>
-                                        </form>
-                                    <?php endif; ?>
+                            <?php while ($r = $requisitions->fetch_assoc()): ?>
+                                <tr>
+                                    <td><?= h($r['req_number']) ?></td>
+                                    <td><?= h($r['requester_name']) ?></td>
+                                    <td><?= h($r['department']) ?></td>
+                                    <td><span class="badge badge-status <?= status_badge($r['status']) ?>"><?= strtoupper(h($r['status'])) ?></span></td>
+                                    <td><?= h($r['created_at']) ?></td>
+                                    <td>
+                                        <?php if ($r['status'] === 'pending' && has_role(['admin'])): ?>
+                                            <form method="post" class="d-inline">
+                                                <input type="hidden" name="action" value="approve">
+                                                <input type="hidden" name="requisition_id" value="<?= (int) $r['id'] ?>">
+                                                <button class="btn btn-sm btn-outline-success">Approve</button>
+                                            </form>
+                                            <form method="post" class="d-inline">
+                                                <input type="hidden" name="action" value="reject">
+                                                <input type="hidden" name="requisition_id" value="<?= (int) $r['id'] ?>">
+                                                <input type="hidden" name="rejection_reason" value="Rejected by admin">
+                                                <button class="btn btn-sm btn-outline-danger">Reject</button>
+                                            </form>
+                                        <?php endif; ?>
 
-                                    <?php if ($r['status'] === 'approved' && has_role(['admin', 'warehouse'])): ?>
-                                        <form method="post" class="d-inline">
-                                            <input type="hidden" name="action" value="deliver">
-                                            <input type="hidden" name="requisition_id" value="<?= (int) $r['id'] ?>">
-                                            <button class="btn btn-sm btn-outline-primary">Mark Delivered</button>
-                                        </form>
-                                    <?php endif; ?>
-                                </td>
-                            </tr>
-                        <?php endwhile; ?>
+                                        <?php if ($r['status'] === 'approved' && has_role(['admin', 'warehouse'])): ?>
+                                            <form method="post" class="d-inline">
+                                                <input type="hidden" name="action" value="deliver">
+                                                <input type="hidden" name="requisition_id" value="<?= (int) $r['id'] ?>">
+                                                <button class="btn btn-sm btn-outline-primary">Mark Delivered</button>
+                                            </form>
+                                        <?php endif; ?>
+                                    </td>
+                                </tr>
+                            <?php endwhile; ?>
                         </tbody>
                     </table>
                 </div>
@@ -330,5 +331,5 @@ function status_badge(string $status): string
 </div>
 
 <script>
-window.productsByCategory = <?= json_encode($productsByCategory, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>;
+    window.productsByCategory = <?= json_encode($productsByCategory, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>;
 </script>

@@ -1,7 +1,7 @@
 <?php
 require_roles(['admin']);
 
-$roles = ['admin', 'warehouse', 'requester'];
+$roles = ['admin', 'supervisor', 'warehouse', 'requester'];
 $departments = available_departments();
 
 $id = (int) ($_GET['id'] ?? $_POST['id'] ?? 0);
@@ -177,7 +177,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'edit_
 
         function updateDeptField() {
             var role = roleSelect.value;
-            if (role === 'admin' || role === 'warehouse') {
+            if (role === 'admin' || role === 'supervisor' || role === 'warehouse') {
                 for (var i = 0; i < deptSelect.options.length; i++) {
                     if (deptSelect.options[i].value === adminWarehouseDept) {
                         deptSelect.selectedIndex = i;

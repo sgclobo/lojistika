@@ -53,7 +53,7 @@ $users = db()->query('SELECT id, full_name, email, role, is_active, created_at F
                             <td><?= h($row['email']) ?></td>
                             <td>
                                 <span class="badge text-uppercase
-                                    <?= $row['role'] === 'admin' ? 'text-bg-danger' : ($row['role'] === 'warehouse' ? 'text-bg-warning' : 'text-bg-secondary') ?>">
+                                    <?= $row['role'] === 'admin' ? 'text-bg-danger' : ($row['role'] === 'supervisor' ? 'text-bg-primary' : ($row['role'] === 'warehouse' ? 'text-bg-warning' : 'text-bg-secondary')) ?>">
                                     <?= h($row['role']) ?>
                                 </span>
                             </td>

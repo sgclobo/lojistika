@@ -1,5 +1,5 @@
 <?php
-require_roles(['admin']);
+require_roles(['admin', 'supervisor']);
 
 // Ensure table exists (first-time setup via the helper)
 log_activity('page_access', 'Accessed page: activity_monitor');

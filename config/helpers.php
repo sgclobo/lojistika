@@ -154,7 +154,7 @@ function available_departments(): array
 
 function default_department_for_role(string $role): string
 {
-    if (in_array($role, ['admin', 'warehouse'], true)) {
+    if (in_array($role, ['admin', 'supervisor', 'warehouse'], true)) {
         return 'Departamento de Administracao e Financas';
     }
 

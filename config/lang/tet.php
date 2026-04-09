@@ -107,6 +107,7 @@ return [
     'auth.password_hint'     => 'Mínimo karátere 8.',
     'auth.dept_hint'         => 'Admin no Armazén atribui automatikamente ba Departamentu de Administrasaun no Finansas.',
     'auth.role_admin'        => 'Admin',
+    'auth.role_supervisor'   => 'Supervisor',
     'auth.role_warehouse'    => 'Armazén',
     'auth.role_requester'    => 'Rekerente',
 

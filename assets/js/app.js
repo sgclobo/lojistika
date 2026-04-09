@@ -120,7 +120,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var defaultDepartment = "Departamento de Administracao e Financas";
 
     function applyRoleRule() {
-      if (roleSelect.value === "admin" || roleSelect.value === "warehouse") {
+      if (roleSelect.value === "admin" || roleSelect.value === "supervisor" || roleSelect.value === "warehouse") {
         departmentSelect.value = defaultDepartment;
         departmentSelect.setAttribute("readonly", "readonly");
         departmentSelect.setAttribute("disabled", "disabled");

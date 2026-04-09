@@ -107,6 +107,7 @@ return [
     'auth.password_hint'     => 'Minimum 8 characters.',
     'auth.dept_hint'         => 'Admin and Warehouse are automatically assigned to Departamento de Administracao e Financas.',
     'auth.role_admin'        => 'Admin',
+    'auth.role_supervisor'   => 'Supervisor',
     'auth.role_warehouse'    => 'Warehouse',
     'auth.role_requester'    => 'Requester',
 
